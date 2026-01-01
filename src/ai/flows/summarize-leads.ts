@@ -10,6 +10,9 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { initializeFirebase } from '@/firebase';
+import { collection, getDocs, query, limit, orderBy } from 'firebase/firestore';
+
 
 const SummarizeLeadsInputSchema = z.object({});
 export type SummarizeLeadsInput = z.infer<typeof SummarizeLeadsInputSchema>;
@@ -27,7 +30,9 @@ export async function summarizeLeads(input: SummarizeLeadsInput): Promise<Summar
 
 const summarizeLeadsPrompt = ai.definePrompt({
   name: 'summarizeLeadsPrompt',
-  input: {schema: SummarizeLeadsInputSchema},
+  input: {schema: z.object({
+    leads: z.string()
+  })},
   output: {schema: SummarizeLeadsOutputSchema},
   prompt: `You are an expert marketing analyst tasked with summarizing new leads for a business. Analyze the following leads (provided in JSON format) to identify key trends and pain points. Provide a concise summary of these trends and pain points. 
 
@@ -41,8 +46,7 @@ const summarizeLeadsFlow = ai.defineFlow(
     inputSchema: SummarizeLeadsInputSchema,
     outputSchema: SummarizeLeadsOutputSchema,
   },
-  async input => {
-    // Fetch leads from the database or other source
+  async () => {
     const leads = await getNewLeads();
 
     if (!leads || leads.length === 0) {
@@ -52,7 +56,6 @@ const summarizeLeadsFlow = ai.defineFlow(
     const {
       output,
     } = await summarizeLeadsPrompt({
-      ...input,
       leads: JSON.stringify(leads),
     });
     return output!;
@@ -60,18 +63,20 @@ const summarizeLeadsFlow = ai.defineFlow(
 );
 
 async function getNewLeads(): Promise<any[]> {
-  // TODO: Implement fetching leads from the database.
-  // Replace this with actual data fetching logic.
-  return [
-    {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      message: 'Need help with cybersecurity for my small business.',
-    },
-    {
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      message: 'Interested in learning more about your threat detection services.',
-    },
-  ];
+  try {
+    const { firestore } = initializeFirebase();
+    const submissionsCollection = collection(firestore, 'contact_form_submissions');
+    const q = query(submissionsCollection, orderBy('submissionDate', 'desc'), limit(10));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    return querySnapshot.docs.map(doc => doc.data());
+  } catch (error) {
+    console.error("Error fetching new leads from Firestore:", error);
+    // In a real application, you might want to handle this more gracefully
+    return [];
+  }
 }

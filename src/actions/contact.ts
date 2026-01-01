@@ -1,6 +1,8 @@
 "use server";
 
 import { z } from "zod";
+import { initializeFirebase, addDocumentNonBlocking } from "@/firebase";
+import { collection } from "firebase/firestore";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,13 +41,28 @@ export async function submitContactForm(
     };
   }
 
-  // Here you would typically save the lead to a database.
-  // We'll simulate a successful submission.
-  console.log("New Lead Received:", validatedFields.data);
+  try {
+    const { firestore } = initializeFirebase();
+    const submissionsCollection = collection(firestore, 'contact_form_submissions');
+    
+    const submissionData = {
+      ...validatedFields.data,
+      submissionDate: new Date().toISOString(),
+    };
+    
+    addDocumentNonBlocking(submissionsCollection, submissionData);
 
-  return {
-    success: true,
-    message: "Thank you for your message! We'll be in touch soon.",
-    errors: null,
-  };
+    return {
+      success: true,
+      message: "Thank you for your message! We'll be in touch soon.",
+      errors: null,
+    };
+  } catch (error) {
+    console.error("Error saving contact form submission:", error);
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please try again later.",
+      errors: null,
+    };
+  }
 }
