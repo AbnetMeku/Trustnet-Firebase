@@ -1,0 +1,285 @@
+/**
+ * This Firestore Security Ruleset is designed for the TrustNet Hub application,
+ * implementing a security model that balances public content access with strict
+ * user data privacy and administrative control.
+ *
+ * Core Philosophy:
+ * The ruleset employs a multi-layered security approach:
+ * 1. User-Ownership: Data private to a user (profile, theme, author profiles) is
+ *    strictly confined to that user's access.
+ * 2. Public Read, Owner Write: Top-level content like blog posts is publicly
+ *    readable by anyone, but can only be created or modified by the authenticated
+ *    author.
+ * 3. Public Read, Admin Write: Global site data (categories, tags, services) is
+ *    publicly readable, but managed exclusively by administrators.
+ * 4. Admin-Only Access: Sensitive data like contact form submissions is completely
+ *    inaccessible to regular users and only readable by administrators.
+ *
+ * Data Structure:
+ * - /users/{userId}/...: All user-specific, private data is nested under this
+ *   path, leveraging path-based security for clear ownership rules.
+ * - Top-level Collections: Publicly queryable data (e.g., /blog_posts, /categories)
+ *   is stored in top-level collections to enable efficient and secure list operations.
+ * - /roles_admin/{userId}: A dedicated collection for Document-Based Access Control
+ *   (DBAC), where the existence of a document signifies a user's admin status.
+ *
+ * Key Security Decisions:
+ * - Denormalization for Authorization: Blog posts contain a denormalized `authorId`
+ *   field. This is critical for creating fast, secure, and cost-effective rules
+ *   that check for authorship without needing extra `get()` calls to other collections.
+ * - No User Enumeration: Listing the entire `/users` collection is explicitly
+ *   disallowed to protect user privacy.
+ * - Drop-Box for Submissions: The `/contact_form_submissions` collection allows
+ *   anyone to `create` a document (submit the form) but denies all read and list
+ *   access to non-administrators, creating a secure "drop-box".
+ * - Default Secure: For global collections where write permissions are not explicitly
+ *   defined for all users, writes are defaulted to be admin-only to prevent
+ *   unauthorized content creation.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --------------------------------------------------------------------------
+    // Helper Functions
+    // --------------------------------------------------------------------------
+
+    /**
+     * Checks if a user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user's UID matches the provided userId.
+     * This is the foundation of the user-ownership model.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Verifies the document being operated on already exists.
+     * CRITICAL for all update and delete operations to prevent unintended side effects.
+     */
+    function isExistingDoc() {
+      return resource != null;
+    }
+
+    /**
+     * Combines ownership check with an existence check for secure updates/deletes.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && isExistingDoc();
+    }
+
+    /**
+     * Checks if the current user is an admin by verifying the existence of their
+     * UID in the roles_admin collection (Document-Based Access Control).
+     */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /**
+     * On create, validates the incoming blog post's authorId matches the creator.
+     */
+    function isAuthorOnCreate() {
+      return isSignedIn() && request.resource.data.authorId == request.auth.uid;
+    }
+
+    /**
+     * On update/delete, validates the existing blog post belongs to the user.
+     */
+    function isExistingAuthor() {
+      return isSignedIn() && isExistingDoc() && resource.data.authorId == request.auth.uid;
+    }
+
+    /**
+     * On update, ensures the authorId field cannot be changed.
+     */
+    function isAuthorIdImmutable() {
+      return request.resource.data.authorId == resource.data.authorId;
+    }
+
+
+    // --------------------------------------------------------------------------
+    // User Data
+    // --------------------------------------------------------------------------
+
+    /**
+     * @description Manages user profile documents.
+     * @path /users/{userId}
+     * @allow (create) A new user creating their own profile document.
+     * @allow (get, update) An authenticated user reading or updating their own profile.
+     * @deny (list) Any user attempting to list all user profiles.
+     * @deny (get) User 'A' trying to read User 'B's profile.
+     * @principle Restricts access to a user's own data tree and prevents user enumeration.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Manages a user's private author profiles.
+     * @path /users/{userId}/authors/{authorId}
+     * @allow (create, get, list, update, delete) A user managing their own author profiles.
+     * @deny (get) User 'A' trying to read an author profile belonging to User 'B'.
+     * @principle Enforces path-based ownership for a user's private subcollections.
+     */
+    match /users/{userId}/authors/{authorId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Manages a user's theme preference document.
+     * @path /users/{userId}/theme_preference
+     * @allow (create, get, update, delete) A user managing their own theme preference.
+     * @deny (get) User 'A' trying to read the theme preference of User 'B'.
+     * @principle Enforces path-based ownership for a user's private settings.
+     */
+    match /users/{userId}/theme_preference {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+
+    // --------------------------------------------------------------------------
+    // Public & Collaborative Content
+    // --------------------------------------------------------------------------
+
+    /**
+     * @description Manages blog posts. Readable by all, writable only by the author.
+     * @path /blog_posts/{blogPostId}
+     * @allow (get, list) Any user, signed in or not, reading blog posts.
+     * @allow (create) An authenticated user creating a post where they are the author.
+     * @allow (update, delete) The original author updating or deleting their post.
+     * @deny (update) User 'A' trying to update a post written by User 'B'.
+     * @principle Implements "Public Read with Owner-Only Writes" using a denormalized `authorId`.
+     */
+    match /blog_posts/{blogPostId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAuthorOnCreate();
+      allow update: if isExistingAuthor() && isAuthorIdImmutable();
+      allow delete: if isExistingAuthor();
+    }
+
+
+    // --------------------------------------------------------------------------
+    // Global Site Data (Public Read, Admin Write)
+    // --------------------------------------------------------------------------
+
+    /**
+     * @description Manages global post categories.
+     * @path /categories/{categoryId}
+     * @allow (get, list) Any user, signed in or not, reading categories.
+     * @allow (create, update, delete) An admin managing categories.
+     * @deny (create) A regular user trying to create a new category.
+     * @principle Ensures global lookup data is publicly readable but centrally managed by admins.
+     */
+    match /categories/{categoryId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages global post tags.
+     * @path /tags/{tagId}
+     * @allow (get, list) Any user, signed in or not, reading tags.
+     * @allow (create, update, delete) An admin managing tags.
+     * @deny (create) A regular user trying to create a new tag.
+     * @principle Ensures global lookup data is publicly readable but centrally managed by admins.
+     */
+    match /tags/{tagId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages service listings for the company.
+     * @path /services/{serviceId}
+     * @allow (get, list) Any user, signed in or not, viewing services.
+     * @allow (create, update, delete) An admin managing services.
+     * @deny (create) A regular user trying to create a new service.
+     * @principle Ensures global marketing data is publicly readable but centrally managed by admins.
+     */
+    match /services/{serviceId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages global social media settings.
+     * @path /social_settings/{socialSettingId}
+     * @allow (get, list) Any user, signed in or not, viewing social links.
+     * @allow (create, update, delete) An admin managing social links.
+     * @deny (create) A regular user trying to create a new social link.
+     * @principle Ensures global site settings are publicly readable but centrally managed by admins.
+     */
+    match /social_settings/{socialSettingId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+
+    // --------------------------------------------------------------------------
+    // Administrative Collections
+    // --------------------------------------------------------------------------
+
+    /**
+     * @description Secure drop-box for contact form submissions.
+     * @path /contact_form_submissions/{contactFormSubmissionId}
+     * @allow (create) Any user, signed in or not, submitting the contact form.
+     * @allow (get, list, update, delete) An admin managing submissions.
+     * @deny (get, list) A regular user trying to read any submissions.
+     * @principle Implements a secure "drop-box" where data can be written publicly but not read.
+     */
+    match /contact_form_submissions/{contactFormSubmissionId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if true;
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Manages admin roles using Document-Based Access Control (DBAC).
+     * @path /roles_admin/{userId}
+     * @allow (get, list, create, update, delete) An existing admin managing other admins.
+     * @deny (create) A non-admin user trying to grant themselves admin privileges.
+     * @principle Restricts role management to existing administrators to prevent privilege escalation.
+     */
+    match /roles_admin/{userId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin() && isExistingDoc();
+      allow delete: if isAdmin() && isExistingDoc();
+    }
+  }
+}

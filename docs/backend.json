@@ -1,0 +1,466 @@
+{
+  "entities": {
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents a blog post on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the blog post."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the blog post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Main content of the blog post, likely in HTML or Markdown format."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the Author. (Relationship: Author 1:N BlogPost)"
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Reference to the Category. (Relationship: Category 1:N BlogPost)"
+        },
+        "tagIds": {
+          "type": "array",
+          "description": "References to Tags. (Relationship: Tag N:N BlogPost)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationDate": {
+          "type": "string",
+          "description": "Date and time when the blog post was published.",
+          "format": "date-time"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the image used for the blog post",
+          "format": "uri"
+        },
+        "slug": {
+          "type": "string",
+          "description": "The URL-friendly slug."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "authorId",
+        "categoryId",
+        "publicationDate",
+        "imageUrl",
+        "slug"
+      ]
+    },
+    "Author": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Author",
+      "type": "object",
+      "description": "Represents the author of a blog post.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the author."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the author."
+        },
+        "bio": {
+          "type": "string",
+          "description": "Biography of the author."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the author.",
+          "format": "email"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "description": "URL of the author's profile image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email"
+      ]
+    },
+    "Category": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Category",
+      "type": "object",
+      "description": "Represents a category for blog posts.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the category."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the category."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the category."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Tag": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Tag",
+      "type": "object",
+      "description": "Represents a tag associated with blog posts.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the tag."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the tag."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Service": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Service",
+      "type": "object",
+      "description": "Represents a service offered by the company.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the service."
+        },
+        "icon": {
+          "type": "string",
+          "description": "Icon associated with the service."
+        },
+        "learn_more_link": {
+          "type": "string",
+          "description": "Link for a user to learn more about the service",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "icon"
+      ]
+    },
+    "ContactFormSubmission": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactFormSubmission",
+      "type": "object",
+      "description": "Represents a submission from the contact form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the form submission."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the person submitting the form."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the person submitting the form.",
+          "format": "email"
+        },
+        "message": {
+          "type": "string",
+          "description": "Message content from the form submission."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "Date and time when the form was submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "message",
+        "submissionDate"
+      ]
+    },
+    "SocialSetting": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SocialSetting",
+      "type": "object",
+      "description": "Represents social media settings for the website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the social setting."
+        },
+        "platform": {
+          "type": "string",
+          "description": "The name of the social media platform (e.g., 'Twitter', 'Facebook')."
+        },
+        "url": {
+          "type": "string",
+          "description": "URL to the social media profile.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "platform",
+        "url"
+      ]
+    },
+    "ThemePreference": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ThemePreference",
+      "type": "object",
+      "description": "Stores the user's theme preference (light/dark mode).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the theme preference."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User. (Relationship: User 1:1 ThemePreference)"
+        },
+        "theme": {
+          "type": "string",
+          "description": "The preferred theme (e.g., 'light', 'dark')."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "theme"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the TrustNet Hub platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "email"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/authors/{authorId}",
+        "definition": {
+          "entityName": "Author",
+          "schema": {
+            "$ref": "#/backend/entities/Author"
+          },
+          "description": "Stores author profiles. Path-based ownership; only the user can access their own author profiles.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The ID of the user."
+            },
+            {
+              "name": "authorId",
+              "description": "The ID of the author."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blog_posts/{blogPostId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Stores blog posts. Includes denormalized 'authorId' and 'categoryId' for authorization independence.",
+          "params": [
+            {
+              "name": "blogPostId",
+              "description": "The ID of the blog post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/categories/{categoryId}",
+        "definition": {
+          "entityName": "Category",
+          "schema": {
+            "$ref": "#/backend/entities/Category"
+          },
+          "description": "Stores categories for blog posts.",
+          "params": [
+            {
+              "name": "categoryId",
+              "description": "The ID of the category."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tags/{tagId}",
+        "definition": {
+          "entityName": "Tag",
+          "schema": {
+            "$ref": "#/backend/entities/Tag"
+          },
+          "description": "Stores tags for blog posts.",
+          "params": [
+            {
+              "name": "tagId",
+              "description": "The ID of the tag."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/services/{serviceId}",
+        "definition": {
+          "entityName": "Service",
+          "schema": {
+            "$ref": "#/backend/entities/Service"
+          },
+          "description": "Stores services offered by the company.",
+          "params": [
+            {
+              "name": "serviceId",
+              "description": "The ID of the service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contact_form_submissions/{contactFormSubmissionId}",
+        "definition": {
+          "entityName": "ContactFormSubmission",
+          "schema": {
+            "$ref": "#/backend/entities/ContactFormSubmission"
+          },
+          "description": "Stores contact form submissions. Only accessible by admins.",
+          "params": [
+            {
+              "name": "contactFormSubmissionId",
+              "description": "The ID of the contact form submission."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/social_settings/{socialSettingId}",
+        "definition": {
+          "entityName": "SocialSetting",
+          "schema": {
+            "$ref": "#/backend/entities/SocialSetting"
+          },
+          "description": "Stores social media settings for the website.",
+          "params": [
+            {
+              "name": "socialSettingId",
+              "description": "The ID of the social setting."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/theme_preference",
+        "definition": {
+          "entityName": "ThemePreference",
+          "schema": {
+            "$ref": "#/backend/entities/ThemePreference"
+          },
+          "description": "Stores theme preferences for each user. Path-based ownership; only the user can access their theme preference.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The ID of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Access is restricted to the user themselves.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The ID of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Marks a user as an admin. Existence of a document grants admin privileges (DBAC).",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The ID of the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to adhere to the principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs, ensuring secure and scalable data management for the TrustNet Hub application. It leverages denormalization for authorization, structural segregation, and standardized access modeling.\n\n*   **Authors (Private):** `/users/{userId}/authors/{authorId}` establishes path-based ownership for authors. Each author is associated with a user, simplifying security rules and access control. The author's data is private and only accessible by the user.\n*   **Blog Posts (Collaborative/Public):** `/blog_posts/{blogPostId}` stores blog posts in a top-level collection, facilitating listing and querying. The `authorId` field is used for filtering posts by author. To enable authorization independence and QAPs, the `authorId` and `categoryId` are copied into the blog post document.\n*   **Categories (Global):** `/categories/{categoryId}` stores categories, which are globally accessible. This supports efficient listing and filtering of blog posts.\n*   **Tags (Global):** `/tags/{tagId}` stores tags, which are globally accessible. This supports efficient listing and filtering of blog posts.\n*   **Services (Global):** `/services/{serviceId}` stores services offered by the company. These are globally accessible for display in the service catalog.\n*   **Contact Form Submissions (Private):** `/contact_form_submissions/{contactFormSubmissionId}` stores contact form submissions. These are private and only accessible by authorized admin users, who are defined by their presence in the `/roles_admin/{userId}` collection.\n*   **Social Settings (Global):** `/social_settings/{socialSettingId}` stores social media settings, which are globally accessible.\n*   **Theme Preferences (Private):** `/users/{userId}/theme_preference` stores theme preferences for each user, ensuring private user settings based on path-based ownership.\n*   **Users (Private):** `/users/{userId}` stores user profiles. Access is restricted to the user themselves.\n*   **Admin Roles (DBAC):** `/roles_admin/{userId}` denotes admin roles. The existence of a document for a user ID in this collection grants admin privileges. This approach uses Existence over Content for role management (DBAC).\n\n**Authorization Independence (CRITICAL):**\n\n*   For `blog_posts`, the `authorId` and `categoryId` are denormalized within each blog post document. This allows security rules to validate that the user creating/modifying the blog post has the correct `authorId` and `categoryId` without needing to perform a `get()` request on the `authors` or `categories` collection.\n*   This eliminates hierarchical authorization dependencies and enables atomic operations (transactions/batches). This is also important in case the `author` or `category` document is deleted, the `blog_post` is still valid.\n\n**QAPs (Rules are not Filters):**\n\n*   The separation of blog posts into a top-level `/blog_posts` collection allows secure `list` operations (QAPs). Security rules can ensure that only authorized users can create, read, update, or delete blog posts. Additionally, the structure is segregated to allow any kind of filtering based on category or author id.\n*   Admin roles are managed using the `/roles_admin/{userId}` collection. This allows secure filtering of contact form submissions to be available only to admin users."
+  }
+}
