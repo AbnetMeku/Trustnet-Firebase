@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Abstract futuristic network grid",
+      "imageUrl": "https://images.unsplash.com/photo-1738082956213-aa554ba67bda?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuZXR3b3JrJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzY3MjgxNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "network abstract"
+    },
+    {
+      "id": "blog-post-1",
+      "description": "Cyber security specialist at work with code on screen",
+      "imageUrl": "https://images.unsplash.com/photo-1559581958-df379578606a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjeWJlciUyMHNlY3VyaXR5fGVufDB8fHx8MTc2NzIxNDQ4NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyber security"
+    },
+    {
+      "id": "blog-post-2",
+      "description": "Digital lock on a computer screen",
+      "imageUrl": "https://images.unsplash.com/photo-1667453466805-75bbf36e8707?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwc2VjdXJpdHl8ZW58MHx8fHwxNzY3MjgxNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital security"
+    },
+    {
+      "id": "blog-post-3",
+      "description": "Server room with blue lighting",
+      "imageUrl": "https://images.unsplash.com/photo-1682559736721-c2e77ff4c650?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkYXRhJTIwY2VudGVyfGVufDB8fHx8MTc2NzIxMjE0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data center"
+    },
+    {
+      "id": "blog-post-4",
+      "description": "Abstract data visualization",
+      "imageUrl": "https://images.unsplash.com/photo-1480944657103-7fed22359e1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkYXRhJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzY3MjgxNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data abstract"
+    },
+    {
+      "id": "contact-hero",
+      "description": "Global connections on a digital map",
+      "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2NzI4MTY1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "global network"
+    },
+    {
+      "id": "services-hero",
+      "description": "Man looking at a screen with data",
+      "imageUrl": "https://images.unsplash.com/photo-1588600878108-578307a3cc9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkYXRhJTIwYW5hbHlzaXN8ZW58MHx8fHwxNzY3MjgxNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data analysis"
+    },
+    {
+      "id": "blog-hero",
+      "description": "Person typing on a futuristic keyboard",
+      "imageUrl": "https://images.unsplash.com/photo-1753026343991-b33d78dd6a2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmdXR1cmlzdGljJTIwdHlwaW5nfGVufDB8fHx8MTc2NzI4MTY1MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic typing"
+    }
+  ]
 }
