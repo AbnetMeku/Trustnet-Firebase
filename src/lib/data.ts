@@ -22,13 +22,41 @@ export const services: Service[] = [
     longDescription: 'The human element is often the weakest link in security. Our awareness programs go beyond generic training. We provide engaging, human-centric security education and realistic phishing simulations to empower your employees, turning your team into a proactive first line of defense.'
   },
   {
+    title: 'Penetration Testing',
+    description: 'Simulating real-world attacks to identify vulnerabilities in your systems before adversaries do.',
+  },
+  {
+    title: 'Threat Intelligence',
+    description: 'Proactively gathering and analyzing threat data to inform your security strategy and defenses.',
+  },
+  {
     title: 'Incident Response',
     description: 'Rapid response and remediation services to contain threats, minimize damage, and restore operations after a security breach.',
+  },
+  {
+    title: 'Security Audit & Compliance',
+    description: 'Ensuring your organization meets industry standards and regulatory requirements like GDPR, HIPAA, and ISO 27001.',
   },
   {
     title: 'Digital Forensics',
     description: 'Investigating security incidents to understand the scope of a breach and gather evidence for legal action.',
   },
+  {
+    title: 'Vulnerability Assessment',
+    description: 'Systematically scanning your IT infrastructure to identify and prioritize security weaknesses.',
+  },
+  {
+    title: 'Network Security Monitoring',
+    description: '24/7 monitoring of your network traffic to detect and respond to suspicious activity in real-time.',
+  },
+  {
+    title: 'Cloud Security',
+    description: 'Securing your cloud environments (AWS, Azure, GCP) with best-practice configurations and continuous monitoring.',
+  },
+  {
+    title: 'Phishing Simulation',
+    description: 'Testing and improving your team\'s ability to recognize and report phishing attempts through realistic simulations.',
+  }
 ];
 
 export const categories: Category[] = [

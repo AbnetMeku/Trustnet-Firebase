@@ -1,37 +1,16 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { services } from '@/lib/data';
-import { ArrowRight, Shield, Code, Users, Search, Target, Scaling } from 'lucide-react';
+import { ArrowRight, Shield, Code, Users, Search, Target, Scaling, Lock, Zap, GitBranch, Brain, Layers, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-
-const serviceIcons: { [key: string]: React.ElementType } = {
-  Architecture: Shield,
-  Offensive: Target,
-  DevSecOps: Code,
-  Awareness: Users,
-};
-
-const valuePropIcons: { [key: string]: React.ElementType } = {
-    'Tailored Solutions': Target,
-    'End-to-End Model': Scaling,
-    'Transparent Collaboration': Users,
-}
-
-const approachIcons: { [key: string]: React.ElementType } = {
-    'Assess & Align': Search,
-    'Assemble & Execute': Code,
-    'Support & Scale': Scaling,
-}
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'soc-background');
 
   return (
-    <div className="flex flex-col min-h-screen animate-fade-in-up">
+    <div className="flex flex-col min-h-screen">
       <main className="flex-1">
-        <section className="relative w-full pt-20 pb-20 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
+        <section className="relative w-full pt-20 pb-20 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 overflow-hidden animate-fade-in-up">
           {heroImage && (
             <Image
               src={heroImage.imageUrl}
@@ -73,26 +52,67 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="services" className="w-full py-16 md:py-24 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {services.slice(0, 4).map((service) => {
-                const Icon = serviceIcons[service.title] || Shield;
-                return (
-                  <div key={service.title} className="group relative rounded-2xl p-6 flex flex-col items-start gap-4 bg-secondary/50 border border-border transition-all duration-300 hover:border-primary/50 hover:bg-secondary">
-                    <div className="p-3 rounded-full bg-slate-800 border border-slate-700 text-slate-400 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                        <Icon className="h-7 w-7" />
-                    </div>
-                    <h3 className="text-xl font-bold font-headline">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground">{service.description}</p>
+        <section className="py-24 bg-background transition-colors duration-300 animate-fade-in-up">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-bold text-foreground mb-4 font-headline">What We Do</h2>
+                    <p className="text-muted-foreground max-w-3xl mx-auto">
+                        We provide end-to-end cybersecurity services covering technology, applications, and people.
+                    </p>
+                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-8 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group flex flex-col">
+                  <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground text-primary transition-all duration-300">
+                        <Lock className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground pt-2 font-headline">Secure Architecture & Implementation</h3>
                   </div>
-                );
-              })}
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                      We design and deploy security solutions that protect your environment from day one on-prem, cloud, and hybrid.
+                  </p>
+                </div>
+                
+                <div className="p-8 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group flex flex-col">
+                  <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground text-primary transition-all duration-300">
+                        <Zap className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground pt-2 font-headline">Offensive Security, Risk & Compliance</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                      We test your defenses using real-world attack techniques to uncover gaps before attackers do.
+                  </p>
+                </div>
+
+                <div className="p-8 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group flex flex-col">
+                  <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground text-primary transition-all duration-300">
+                        <GitBranch className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground pt-2 font-headline">Application Security & DevSecOps</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                      We embed security into your software delivery pipelines so vulnerabilities are identified and fixed early.
+                  </p>
+                </div>
+
+                <div className="p-8 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all group flex flex-col">
+                  <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:bg-primary group-hover:text-primary-foreground text-primary transition-all duration-300">
+                        <Brain className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground pt-2 font-headline">Security Awareness, Training & Simulation</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                      We reduce human risk and build internal cybersecurity capability through targeted training and simulations.
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
         </section>
         
-        <section id="why-us" className="w-full py-16 md:py-24">
+        <section id="why-us" className="w-full py-16 md:py-24 animate-fade-in-up">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">The Trustnet Advantage</h2>
@@ -118,36 +138,52 @@ export default function Home() {
             </div>
         </section>
 
-        <section id="approach" className="w-full py-16 md:py-24 bg-secondary/50">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">Our 3-Step Strategy</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">A proven methodology for achieving security excellence.</p>
+        <section className="py-24 bg-secondary/50 transition-colors duration-300 border-t border-border animate-fade-in-up">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-bold text-foreground mb-4 font-headline">Our Approach</h2>
+                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                        A streamlined, expert-driven path to total security.
+                    </p>
                 </div>
+                
                 <div className="relative">
-                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2"></div>
-                    <div className="grid md:grid-cols-3 gap-12 relative">
-                        <div className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-card border">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border-2 border-primary text-primary font-bold text-2xl mb-4">1</div>
-                            <h3 className="text-xl font-bold font-headline">Assess & Align</h3>
-                            <p className="text-muted-foreground">We start by analyzing your current security posture, identifying critical gaps, and aligning our strategy with your business goals.</p>
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2 z-0"></div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                        <div className="bg-card p-8 rounded-2xl border border-border text-center hover:-translate-y-2 transition-transform duration-300 shadow-sm">
+                            <div className="w-14 h-14 mx-auto bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl mb-6 shadow-lg shadow-primary/30">1</div>
+                            <div className="flex justify-center mb-4 text-primary"><Search size={36} /></div>
+                            <h4 className="font-bold text-xl text-foreground mb-3 font-headline">Assess & Align</h4>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                              We begin by analyzing your environment, understanding your goals, and identifying security or operational gaps that need to be addressed.
+                            </p>
                         </div>
-                         <div className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-card border">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border-2 border-primary text-primary font-bold text-2xl mb-4">2</div>
-                            <h3 className="text-xl font-bold font-headline">Assemble & Execute</h3>
-                            <p className="text-muted-foreground">A custom team of vetted experts is assembled to execute the plan, implementing robust security controls and processes.</p>
+
+                        <div className="bg-card p-8 rounded-2xl border border-border text-center hover:-translate-y-2 transition-transform duration-300 delay-100 shadow-sm">
+                             <div className="w-14 h-14 mx-auto bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl mb-6 shadow-lg shadow-primary/30">2</div>
+                            <div className="flex justify-center mb-4 text-primary"><Layers size={36} /></div>
+                            <h4 className="font-bold text-xl text-foreground mb-3 font-headline">Assemble & Execute</h4>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                              For each engagement, we build a custom team of vetted cybersecurity and IT professionals, selected specifically for the project’s needs ensuring the right expertise every time.
+                            </p>
                         </div>
-                         <div className="flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-card border">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border-2 border-primary text-primary font-bold text-2xl mb-4">3</div>
-                            <h3 className="text-xl font-bold font-headline">Support & Scale</h3>
-                            <p className="text-muted-foreground">We provide ongoing support, monitoring, and guidance to ensure your security posture evolves and scales with your business.</p>
+
+                        <div className="bg-card p-8 rounded-2xl border border-border text-center hover:-translate-y-2 transition-transform duration-300 delay-200 shadow-sm">
+                             <div className="w-14 h-14 mx-auto bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl mb-6 shadow-lg shadow-primary/30">3</div>
+                            <div className="flex justify-center mb-4 text-primary"><TrendingUp size={36} /></div>
+                            <h4 className="font-bold text-xl text-foreground mb-3 font-headline">Support & Scale</h4>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                              We offer post-implementation support, training, and continuous improvement to keep your systems secure and aligned with your business growth.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cta" className="w-full py-16 md:py-24 bg-background">
+
+        <section id="cta" className="w-full py-16 md:py-24 bg-background animate-fade-in-up">
           <div className="container relative grid items-center justify-center gap-4 px-4 text-center md:px-6 overflow-hidden">
              <div className="absolute -top-1/2 -left-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full filter blur-[150px] opacity-50"></div>
             <div className="absolute -bottom-1/2 -right-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full filter blur-[150px] opacity-50"></div>
