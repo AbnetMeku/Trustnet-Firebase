@@ -5,8 +5,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Layout, Shield, Activity, Lock, Cloud, Zap, Crosshair, FileCheck, GitBranch, Code, Box, Users, MailWarning, Terminal, Icon } from 'lucide-react';
+import { ArrowRight, Layout, Shield, Activity, Lock, Cloud, Zap, Crosshair, FileCheck, GitBranch, Code, Box, Users, MailWarning, Terminal } from 'lucide-react';
 import type { Service } from '@/lib/types';
+import React, { useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ElementType } = {
   Layout,
@@ -25,15 +26,15 @@ const serviceIcons: { [key: string]: React.ElementType } = {
   Terminal,
 };
 
-const serviceCategories = [
-    "Secure Architecture",
-    "Offensive Security",
-    "DevSecOps",
-    "Training & Simulation"
-];
+const serviceCategories = ["All", ...Array.from(new Set(services.map(s => s.category)))];
 
 export default function ServicesPage() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'services-hero');
+    const [activeCategory, setActiveCategory] = useState("All");
+
+    const filteredServices = activeCategory === "All" 
+        ? services 
+        : services.filter(s => s.category === activeCategory);
 
     return (
         <div className="animate-fade-in-up">
@@ -61,36 +62,46 @@ export default function ServicesPage() {
             </section>
 
             <section className="py-12 md:py-24">
-                <div className="container px-4 md:px-6 space-y-16">
-                    {serviceCategories.map((category) => {
-                        const filteredServices = services.filter(s => s.category === category);
-                        return (
-                            <div key={category}>
-                                <h2 className="text-3xl font-bold tracking-tight mb-8 font-headline text-primary">{category}</h2>
-                                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                                    {filteredServices.map((service: Service) => {
-                                        const Icon = serviceIcons[service.iconName] || Shield;
-                                        return (
-                                            <Card key={service.id} className="flex flex-col rounded-2xl hover:border-primary/50 transition-all hover:scale-[1.02] duration-300 group">
-                                                <CardHeader className="flex-row items-start gap-4 pb-4">
-                                                    <div className="bg-primary/10 p-3 rounded-full">
-                                                        <Icon className="h-6 w-6 text-primary" />
-                                                    </div>
-                                                    <div>
-                                                        <CardTitle className="font-headline text-lg">{service.title}</CardTitle>
-                                                        <p className="text-sm font-semibold text-primary pt-1">{service.price}</p>
-                                                    </div>
-                                                </CardHeader>
-                                                <CardContent className="flex-grow">
-                                                    <p className="text-muted-foreground text-sm">{service.description}</p>
-                                                </CardContent>
-                                            </Card>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )
-                    })}
+                <div className="container px-4 md:px-6">
+                    <div className="flex justify-center flex-wrap gap-2 mb-12">
+                        {serviceCategories.map((category) => (
+                            <Button 
+                                key={category}
+                                variant={activeCategory === category ? 'default' : 'outline'}
+                                onClick={() => setActiveCategory(category)}
+                                className="transition-all"
+                            >
+                                {category}
+                            </Button>
+                        ))}
+                    </div>
+
+                    <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {filteredServices.map((service: Service) => {
+                            const Icon = serviceIcons[service.iconName] || Shield;
+                            return (
+                                <Card key={service.id} className="flex flex-col rounded-2xl hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/10">
+                                    <CardHeader className="flex-row items-start gap-4 pb-4">
+                                        <div className="bg-secondary p-3 rounded-xl group-hover:bg-primary/10 transition-colors">
+                                            <Icon className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <CardTitle className="font-headline text-lg">{service.title}</CardTitle>
+                                            <p className="text-sm font-semibold text-primary pt-1 font-mono">{service.price}</p>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="flex-grow flex flex-col">
+                                        <p className="text-muted-foreground text-sm flex-grow">{service.description}</p>
+                                        <Link href={`/contact?service=${encodeURIComponent(service.title)}`} className="mt-4">
+                                            <Button variant="outline" className="w-full group-hover:bg-accent group-hover:text-accent-foreground">
+                                                Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                            </Button>
+                                        </Link>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
+                    </div>
                 </div>
             </section>
 

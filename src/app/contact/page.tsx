@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect } from "react";
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,8 +25,10 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-export default function ContactPage() {
+function ContactForm() {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const serviceQuery = searchParams.get('service');
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -33,9 +36,16 @@ export default function ContactPage() {
       name: "",
       email: "",
       company: "",
-      message: "",
+      message: serviceQuery ? `I'm interested in learning more about your ${serviceQuery} service.` : "",
     },
   });
+
+  useEffect(() => {
+    const service = searchParams.get('service');
+    if (service) {
+      form.setValue("message", `I'm interested in learning more about your ${service} service.`);
+    }
+  }, [searchParams, form]);
   
   const onSubmit = (data: ContactFormValues) => {
     console.log(data);
@@ -46,6 +56,79 @@ export default function ContactPage() {
     form.reset();
   }
 
+  return (
+    <Card className="rounded-2xl">
+      <CardHeader>
+        <CardTitle>Send Us a Message</CardTitle>
+        <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="john.doe@example.com" {...field} />
+                  </FormControl>
+                   <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="company"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company (Optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your Company Inc." {...field} />
+                  </FormControl>
+                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Message</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="How can we help you?" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full shadow-primary-glow">
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
+
+
+export default function ContactPage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'contact-hero');
 
   return (
@@ -94,73 +177,7 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-          <Card className="rounded-2xl">
-            <CardHeader>
-              <CardTitle>Send Us a Message</CardTitle>
-              <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="john.doe@example.com" {...field} />
-                        </FormControl>
-                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your Company Inc." {...field} />
-                        </FormControl>
-                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="How can we help you?" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" className="w-full shadow-primary-glow">
-                    Submit
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <ContactForm />
         </div>
       </div>
     </div>
