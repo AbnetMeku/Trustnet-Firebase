@@ -1,50 +1,53 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Shield, Code, Users, Search, Target, Scaling, Lock, Zap, GitBranch, Brain, Layers, TrendingUp } from 'lucide-react';
+import { ArrowRight, Shield, Lock, Zap, GitBranch, Brain, Layers, TrendingUp, Users, Search, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'soc-background');
+  const heroImage = PlaceHolderImages.find(p => p.id === 'cyber-tech-bg');
 
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
+        {/* 1. HERO SECTION */}
         <section className="relative w-full pt-20 pb-20 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 overflow-hidden animate-fade-in-up">
           {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover object-center opacity-10"
-              data-ai-hint={heroImage.imageHint}
-              priority
-            />
+             <div className="absolute inset-0 bg-cover bg-center opacity-5 dark:opacity-10">
+                <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                fill
+                className="object-cover object-center"
+                data-ai-hint={heroImage.imageHint}
+                priority
+                />
+            </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background to-background"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/95 to-background"></div>
           
           <div className="container relative px-4 md:px-6 z-10 text-center">
             <div className="flex flex-col items-center space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary border border-primary/20 animate-pulse">
-                <Shield className="h-4 w-4" />
-                Your Trusted Partner
-              </div>
-              <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline">
-                Securing Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-500">Digital Future</span>
+                <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold uppercase tracking-wide mb-8 shadow-lg shadow-primary/10 animate-pulse">
+                    <Shield size={20} />
+                    <span className="text-sm md:text-base">Your Trusted Partner</span>
+                </div>
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 font-headline">
+                Securing Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Digital Future</span>
               </h1>
-              <p className="max-w-[700px] mx-auto text-foreground/80 md:text-xl">
-                We deliver practical, risk-driven cybersecurity solutions that protect your business and accelerate your growth. No templates, just tailored defense.
+              <p className="max-w-[700px] mx-auto text-foreground/80 md:text-xl mb-10 leading-relaxed">
+                We design and implement practical, risk driven cybersecurity solutions that deliver measurable security improvements.
               </p>
-              <div className="flex flex-col gap-4 min-[400px]:flex-row">
+              <div className="flex flex-col gap-4 sm:flex-row justify-center">
                 <Link href="/services">
-                  <Button size="lg" className="shadow-primary-glow transition-transform hover:scale-105">
-                    View Services
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button size="lg" className="shadow-primary-glow transition-all hover:shadow-[0_0_30px_hsl(var(--primary-DEFAULT))] hover:scale-105">
+                    View Our Services
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button size="lg" variant="outline" className="transition-transform hover:scale-105 bg-background/50">
-                    Book Consultation
+                  <Button size="lg" variant="outline" className="transition-all hover:scale-105 bg-background/50">
+                    Book a Consultation
                   </Button>
                 </Link>
               </div>
@@ -52,6 +55,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 2. WHAT WE DO (Service Cards) */}
         <section className="py-24 bg-background transition-colors duration-300 animate-fade-in-up">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
@@ -111,35 +115,51 @@ export default function Home() {
               </div>
             </div>
         </section>
-        
-        <section id="why-us" className="w-full py-16 md:py-24 animate-fade-in-up">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">The Trustnet Advantage</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">Why leading enterprises choose us as their security partner.</p>
+
+        {/* 3. WHY TRUSTNET */}
+        <section className="py-24 bg-secondary/30 dark:bg-card transition-colors duration-300">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-bold text-foreground mb-4 font-headline">Why Trustnet Solutions?</h2>
+                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                        We don't just find vulnerabilities; we help you build a fortress.
+                    </p>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8">
-                    <div className="flex flex-col items-center text-center gap-4">
-                        <Target className="h-10 w-10 text-primary mb-2"/>
-                        <h3 className="text-xl font-bold font-headline">Tailored Solutions</h3>
-                        <p className="text-muted-foreground">We don't sell templates. We build custom security programs that align with your specific risks and business objectives.</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div className="text-center group">
+                        <div className="w-20 h-20 mx-auto bg-background dark:bg-secondary rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <Settings className="w-10 h-10 text-purple-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground mb-3 font-headline">Tailored Solutions</h3>
+                        <p className="text-muted-foreground text-sm">
+                            We design and implement security solutions based on your environment, risk profile, and business needs not one size fits all templates.
+                        </p>
                     </div>
-                    <div className="flex flex-col items-center text-center gap-4">
-                        <Scaling className="h-10 w-10 text-primary mb-2"/>
-                        <h3 className="text-xl font-bold font-headline">End-to-End Model</h3>
-                        <p className="text-muted-foreground">From architecture design to incident response, we provide a single, unified partner for your entire security lifecycle.</p>
+                    <div className="text-center group">
+                        <div className="w-20 h-20 mx-auto bg-background dark:bg-secondary rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <Layers className="w-10 h-10 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground mb-3 font-headline">End-to-End Service Model</h3>
+                        <p className="text-muted-foreground text-sm">
+                            From design and implementation to testing and training, we deliver complete cybersecurity services under one trusted partner.
+                        </p>
                     </div>
-                    <div className="flex flex-col items-center text-center gap-4">
-                        <Users className="h-10 w-10 text-primary mb-2"/>
-                        <h3 className="text-xl font-bold font-headline">Transparent Collaboration</h3>
-                        <p className="text-muted-foreground">Our experts integrate with your team, providing clear communication and acting as an extension of your internal staff.</p>
+                    <div className="text-center group">
+                        <div className="w-20 h-20 mx-auto bg-background dark:bg-secondary rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <Users className="w-10 h-10 text-green-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground mb-3 font-headline">Transparent, Responsive Collaboration</h3>
+                        <p className="text-muted-foreground text-sm">
+                            We work as an extension of your team, providing clear communication, practical guidance, and responsive support throughout every engagement.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section className="py-24 bg-secondary/50 transition-colors duration-300 border-t border-border animate-fade-in-up">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* 4. OUR APPROACH (3 Steps) */}
+        <section id="why-us" className="w-full py-16 md:py-24 animate-fade-in-up">
+            <div className="container px-4 md:px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold text-foreground mb-4 font-headline">Our Approach</h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -183,24 +203,24 @@ export default function Home() {
         </section>
 
 
-        <section id="cta" className="w-full py-16 md:py-24 bg-background animate-fade-in-up">
-          <div className="container relative grid items-center justify-center gap-4 px-4 text-center md:px-6 overflow-hidden">
-             <div className="absolute -top-1/2 -left-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full filter blur-[150px] opacity-50"></div>
-            <div className="absolute -bottom-1/2 -right-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full filter blur-[150px] opacity-50"></div>
-            <div className="space-y-4 relative">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight font-headline">Ready to secure your business?</h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
-                Take the first step towards a more secure future. Get a complimentary assessment of your current security posture from our experts.
-              </p>
-            </div>
-            <div className="mt-6">
-               <Link href="/contact">
-                  <Button size="lg" className="shadow-primary-glow transition-transform hover:scale-105">
-                     Get a Free Assessment
-                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-               </Link>
-            </div>
+        {/* Call to Action */}
+        <section id="cta" className="w-full py-16 md:py-24 bg-secondary/50 text-center relative overflow-hidden animate-fade-in-up">
+            <div className="absolute inset-0 bg-primary/10 dark:bg-primary/10"></div>
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/30 rounded-full blur-3xl"></div>
+            <div className="container relative grid items-center justify-center gap-4 px-4 text-center md:px-6">
+                <div className="space-y-4">
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-6 font-headline">Ready to secure your business?</h2>
+                <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+                    Join the partners who trust Trustnet Solutions with their most critical assets.
+                </p>
+                </div>
+                <div className="mt-6">
+                <Link href="/contact">
+                    <Button size="lg" className="shadow-lg shadow-primary/25 transition-all hover:scale-105">
+                        Get a Free Assessment
+                    </Button>
+                </Link>
+                </div>
           </div>
         </section>
       </main>
