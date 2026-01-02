@@ -1,61 +1,124 @@
 import type { Service, BlogPost, Category, Lead } from './types';
 
 export const services: Service[] = [
+  // 1. Secure Architecture & Security Implementation
   {
-    title: 'Architecture',
-    description: 'Secure implementation and robust cloud design to build a resilient foundation for your digital assets.',
-    longDescription: 'Our architecture services focus on designing and implementing secure-by-design systems. We work with you to build a resilient foundation, whether you are migrating to the cloud or building new applications. We ensure your infrastructure is scalable, compliant, and fortified against modern threats.'
+    id: 1,
+    iconName: "Layout",
+    title: "Security Architecture Design",
+    description: "Designing and deploying resilient cybersecurity solutions that protect your organization from day one.",
+    price: "Custom Quote",
+    category: "Secure Architecture"
   },
   {
-    title: 'Offensive',
-    description: 'Real-world attack simulations and penetration testing to uncover vulnerabilities before they can be exploited.',
-    longDescription: 'Our offensive security team thinks like an attacker. Through penetration testing, red teaming, and adversary simulation, we identify and help you remediate vulnerabilities in your applications, networks, and cloud environments, providing a clear picture of your real-world risk.'
+    id: 2,
+    iconName: "Shield",
+    title: "Next-Gen Firewall Deployment",
+    description: "Deployment and hardening of Next-Generation Firewalls and SD-WAN secure design.",
+    price: "From $2,000",
+    category: "Secure Architecture"
   },
   {
-    title: 'DevSecOps',
-    description: 'Integrating automated security controls and practices directly into your development pipelines.',
-    longDescription: 'We help you shift security left by embedding automated security testing and best practices into your CI/CD pipelines. Our DevSecOps approach ensures that security is a continuous part of your development lifecycle, not an afterthought, enabling you to build and deploy software faster and more securely.'
+    id: 3,
+    iconName: "Activity",
+    title: "SIEM & EDR Deployment",
+    description: "Implementation of SIEM use-cases and Endpoint Detection & Response (EDR/XDR) systems.",
+    price: "Custom Quote",
+    category: "Secure Architecture"
   },
   {
-    title: 'Awareness',
-    description: 'Human-centric security training and phishing simulations to empower your team as the first line of defense.',
-    longDescription: 'The human element is often the weakest link in security. Our awareness programs go beyond generic training. We provide engaging, human-centric security education and realistic phishing simulations to empower your employees, turning your team into a proactive first line of defense.'
+    id: 4,
+    iconName: "Lock",
+    title: "Zero Trust Implementation",
+    description: "Network segmentation and access control implementation based on Zero Trust Architecture principles.",
+    price: "Custom Quote",
+    category: "Secure Architecture"
   },
   {
-    title: 'Penetration Testing',
-    description: 'Simulating real-world attacks to identify vulnerabilities in your systems before adversaries do.',
+    id: 5,
+    iconName: "Cloud",
+    title: "Cloud & Hybrid Security",
+    description: "Securing cloud infrastructures, hybrid environments, and implementing secure email solutions.",
+    price: "From $3,500",
+    category: "Secure Architecture"
+  },
+
+  // 2. Offensive Security, Risk & Compliance
+  {
+    id: 6,
+    iconName: "Zap",
+    title: "VAPT Services",
+    description: "Vulnerability Assessment & Penetration Testing for internal/external networks, Web, and APIs.",
+    price: "From $2,500",
+    category: "Offensive Security"
   },
   {
-    title: 'Threat Intelligence',
-    description: 'Proactively gathering and analyzing threat data to inform your security strategy and defenses.',
+    id: 7,
+    iconName: "Crosshair",
+    title: "Red & Purple Teaming",
+    description: "Full-scope adversarial simulations to test defenses and identify security gaps.",
+    price: "Custom Quote",
+    category: "Offensive Security"
   },
   {
-    title: 'Incident Response',
-    description: 'Rapid response and remediation services to contain threats, minimize damage, and restore operations after a security breach.',
+    id: 8,
+    iconName: "FileCheck",
+    title: "Compliance Readiness",
+    description: "Advisory and readiness assessments for ISO 27001, NIST, and CIS Controls.",
+    price: "From $5,000",
+    category: "Offensive Security"
+  },
+
+  // 3. DevSecOps & Application Security
+  {
+    id: 9,
+    iconName: "GitBranch",
+    title: "DevSecOps Strategy",
+    description: "Embedding security into your CI/CD pipelines and software delivery lifecycle.",
+    price: "Custom Quote",
+    category: "DevSecOps"
   },
   {
-    title: 'Security Audit & Compliance',
-    description: 'Ensuring your organization meets industry standards and regulatory requirements like GDPR, HIPAA, and ISO 27001.',
+    id: 10,
+    iconName: "Code",
+    title: "App Security Testing",
+    description: "SAST, DAST, Software Composition Analysis (SCA), and source code review.",
+    price: "From $1,500",
+    category: "DevSecOps"
   },
   {
-    title: 'Digital Forensics',
-    description: 'Investigating security incidents to understand the scope of a breach and gather evidence for legal action.',
+    id: 11,
+    iconName: "Box",
+    title: "Container Security",
+    description: "Security for Kubernetes, containers, and infrastructure-as-code (IaC).",
+    price: "Custom Quote",
+    category: "DevSecOps"
+  },
+
+  // 4. Security Awareness, Training & Simulation
+  {
+    id: 12,
+    iconName: "Users",
+    title: "Awareness Training",
+    description: "Comprehensive employee cybersecurity training to reduce human risk.",
+    price: "Per User Pricing",
+    category: "Training & Simulation"
   },
   {
-    title: 'Vulnerability Assessment',
-    description: 'Systematically scanning your IT infrastructure to identify and prioritize security weaknesses.',
+    id: 13,
+    iconName: "MailWarning",
+    title: "Phishing Simulations",
+    description: "Real-world phishing campaigns to test and educate your workforce.",
+    price: "Subscription",
+    category: "Training & Simulation"
   },
   {
-    title: 'Network Security Monitoring',
-    description: '24/7 monitoring of your network traffic to detect and respond to suspicious activity in real-time.',
-  },
-  {
-    title: 'Cloud Security',
-    description: 'Securing your cloud environments (AWS, Azure, GCP) with best-practice configurations and continuous monitoring.',
-  },
-  {
-    title: 'Phishing Simulation',
-    description: 'Testing and improving your team\'s ability to recognize and report phishing attempts through realistic simulations.',
+    id: 14,
+    iconName: "Terminal",
+    title: "Technical Training",
+    description: "Red/Blue team technical training and secure coding workshops for developers.",
+    price: "Workshop Pricing",
+    category: "Training & Simulation"
   }
 ];
 

@@ -1,23 +1,36 @@
+"use client"
 import Image from 'next/image';
 import { services } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldCheck, BrainCircuit, Siren, Lock, Fingerprint, Bug, Network, Shield, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Layout, Shield, Activity, Lock, Cloud, Zap, Crosshair, FileCheck, GitBranch, Code, Box, Users, MailWarning, Terminal, Icon } from 'lucide-react';
+import type { Service } from '@/lib/types';
 
 const serviceIcons: { [key: string]: React.ElementType } = {
-  'Penetration Testing': ShieldCheck,
-  'Threat Intelligence': BrainCircuit,
-  'Incident Response': Siren,
-  'Security Audit & Compliance': Lock,
-  'Digital Forensics': Fingerprint,
-  'Vulnerability Assessment': Bug,
-  'Network Security Monitoring': Network,
-  'Cloud Security': Shield,
-  'Phishing Simulation': AlertTriangle,
+  Layout,
+  Shield,
+  Activity,
+  Lock,
+  Cloud,
+  Zap,
+  Crosshair,
+  FileCheck,
+  GitBranch,
+  Code,
+  Box,
+  Users,
+  MailWarning,
+  Terminal,
 };
+
+const serviceCategories = [
+    "Secure Architecture",
+    "Offensive Security",
+    "DevSecOps",
+    "Training & Simulation"
+];
 
 export default function ServicesPage() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'services-hero');
@@ -48,25 +61,36 @@ export default function ServicesPage() {
             </section>
 
             <section className="py-12 md:py-24">
-                <div className="container px-4 md:px-6">
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {services.map((service) => {
-                            const Icon = serviceIcons[service.title] || ShieldCheck;
-                            return (
-                                <Card key={service.title} className="flex flex-col rounded-2xl hover:border-primary/50 transition-all hover:scale-105 duration-300">
-                                    <CardHeader className="flex-row items-center gap-4 pb-4">
-                                        <div className="bg-primary/10 p-3 rounded-full">
-                                            <Icon className="h-6 w-6 text-primary" />
-                                        </div>
-                                        <CardTitle className="font-headline">{service.title}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="flex-grow">
-                                        <p className="text-muted-foreground">{service.description}</p>
-                                    </CardContent>
-                                </Card>
-                            );
-                        })}
-                    </div>
+                <div className="container px-4 md:px-6 space-y-16">
+                    {serviceCategories.map((category) => {
+                        const filteredServices = services.filter(s => s.category === category);
+                        return (
+                            <div key={category}>
+                                <h2 className="text-3xl font-bold tracking-tight mb-8 font-headline text-primary">{category}</h2>
+                                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                                    {filteredServices.map((service: Service) => {
+                                        const Icon = serviceIcons[service.iconName] || Shield;
+                                        return (
+                                            <Card key={service.id} className="flex flex-col rounded-2xl hover:border-primary/50 transition-all hover:scale-[1.02] duration-300 group">
+                                                <CardHeader className="flex-row items-start gap-4 pb-4">
+                                                    <div className="bg-primary/10 p-3 rounded-full">
+                                                        <Icon className="h-6 w-6 text-primary" />
+                                                    </div>
+                                                    <div>
+                                                        <CardTitle className="font-headline text-lg">{service.title}</CardTitle>
+                                                        <p className="text-sm font-semibold text-primary pt-1">{service.price}</p>
+                                                    </div>
+                                                </CardHeader>
+                                                <CardContent className="flex-grow">
+                                                    <p className="text-muted-foreground text-sm">{service.description}</p>
+                                                </CardContent>
+                                            </Card>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             </section>
 

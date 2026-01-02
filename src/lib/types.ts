@@ -1,7 +1,10 @@
 export type Service = {
+  id: number;
+  iconName: string;
   title: string;
   description: string;
-  longDescription?: string;
+  price: string;
+  category: string;
 };
 
 export type Category = {
