@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bot, Menu, X, MessageCircle, Settings } from 'lucide-react';
+import { Bot, Menu, X, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
@@ -37,13 +38,13 @@ export default function Header() {
               href={href}
               className={cn(
                 'px-3 py-2 rounded-md text-sm font-medium transition-colors relative',
-                pathname.startsWith(href)
+                pathname === href
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {label}
-               {pathname.startsWith(href) && (
+               {pathname === href && (
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
               )}
             </Link>

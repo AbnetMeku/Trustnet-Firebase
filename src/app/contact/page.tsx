@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { submitContactForm, ContactFormState } from "@/actions/contact";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Mail, Phone, MapPin } from "lucide-react";
 
@@ -26,15 +24,8 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-const initialState: ContactFormState = {
-  success: false,
-  message: "",
-  errors: null,
-};
-
 export default function ContactPage() {
   const { toast } = useToast();
-  const [state, formAction] = useFormState(submitContactForm, initialState);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -45,24 +36,15 @@ export default function ContactPage() {
       message: "",
     },
   });
-
-  useEffect(() => {
-    if (state.success) {
-      toast({
-        title: "Request Sent!",
-        description: state.message,
-        variant: "default",
-        className: "bg-success text-white"
-      });
-      form.reset();
-    } else if (state.message && state.errors) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: state.message,
-      });
-    }
-  }, [state, toast, form]);
+  
+  const onSubmit = (data: ContactFormValues) => {
+    console.log(data);
+    toast({
+        title: "Form Submitted!",
+        description: "In a real app, this would send an email.",
+    });
+    form.reset();
+  }
 
   const heroImage = PlaceHolderImages.find(p => p.id === 'contact-hero');
 
@@ -119,7 +101,7 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form action={formAction} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
                     control={form.control}
                     name="name"
@@ -129,7 +111,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Input placeholder="John Doe" {...field} />
                         </FormControl>
-                        <FormMessage>{state.errors?.name?.[0]}</FormMessage>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -142,7 +124,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Input type="email" placeholder="john.doe@example.com" {...field} />
                         </FormControl>
-                         <FormMessage>{state.errors?.email?.[0]}</FormMessage>
+                         <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -155,7 +137,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Input placeholder="Your Company Inc." {...field} />
                         </FormControl>
-                         <FormMessage>{state.errors?.company?.[0]}</FormMessage>
+                         <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -168,7 +150,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Textarea placeholder="How can we help you?" {...field} />
                         </FormControl>
-                        <FormMessage>{state.errors?.message?.[0]}</FormMessage>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
