@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Briefcase, Settings, Bot } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { LayoutDashboard, FileText, Briefcase, Settings, Bot, Loader2 } from "lucide-react";
+import React, { useEffect } from 'react';
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useUser } from "@/firebase";
 
 const menuItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -34,6 +36,22 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
+  if (isUserLoading || !user) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -64,12 +82,12 @@ export default function AdminLayout({
         <SidebarFooter>
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://picsum.photos/seed/admin/100/100" />
-              <AvatarFallback>A</AvatarFallback>
+              <AvatarImage src={user.photoURL || "https://picsum.photos/seed/admin/100/100"} />
+              <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'A'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <span className="text-sm font-semibold">Admin User</span>
-              <span className="text-xs text-muted-foreground">admin@trustnet.com</span>
+              <span className="text-xs text-muted-foreground">{user.email}</span>
             </div>
           </div>
         </SidebarFooter>
