@@ -2,15 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bot, Menu, LogOut, User } from 'lucide-react';
+import { Bot, Menu, X, MessageCircle, Settings } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useUser, useAuth } from '@/firebase';
-import { signOut } from 'firebase/auth';
 
 const navLinks = [
   { href: '/services', label: 'Services' },
@@ -21,15 +19,6 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, isUserLoading } = useUser();
-  const auth = useAuth();
-
-  const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
-  };
-
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur-xl">
@@ -62,53 +51,51 @@ export default function Header() {
         </nav>
 
         <div className="flex flex-1 items-center justify-end gap-2">
-           {isUserLoading ? null : user ? (
-            <>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-            </>
-          ) : (
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                <User className="mr-2 h-4 w-4" />
-                Login
-              </Button>
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
+            <div className="h-6 w-px bg-border mx-2"></div>
+            <Link href="/contact" passHref>
+                <Button className="group">
+                    <MessageCircle size={16} className="mr-2 group-hover:scale-110 transition-transform" />
+                    Get Consultation
+                </Button>
             </Link>
-          )}
-          <ThemeToggle />
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <div className="p-4">
-                <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Bot className="h-6 w-6 text-primary" />
-                  <span className="font-bold">Trustnet Solutions</span>
-                </Link>
-                <nav className="grid gap-6 text-lg font-medium">
-                  {navLinks.map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      className={cn(
-                        'flex items-center gap-4 px-2.5',
-                        pathname === href ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
-                      )}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
+          </div>
+
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="p-4">
+                  <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => isMobileMenuOpen && setIsMobileMenuOpen(false)}>
+                    <Bot className="h-6 w-6 text-primary" />
+                    <span className="font-bold">Trustnet Solutions</span>
+                  </Link>
+                  <nav className="grid gap-4 text-lg font-medium">
+                    {navLinks.map(({ href, label }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        className={cn(
+                          'flex items-center gap-4 px-2.5',
+                          pathname === href ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                        )}
+                        onClick={() => isMobileMenuOpen && setIsMobileMenuOpen(false)}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
