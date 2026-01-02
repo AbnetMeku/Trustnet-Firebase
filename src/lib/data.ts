@@ -2,28 +2,32 @@ import type { Service, BlogPost, Category, Lead } from './types';
 
 export const services: Service[] = [
   {
-    title: 'Penetration Testing',
-    description: 'Simulating real-world cyber attacks to identify and patch vulnerabilities in your systems before malicious actors can exploit them.',
+    title: 'Architecture',
+    description: 'Secure implementation and robust cloud design to build a resilient foundation for your digital assets.',
+    longDescription: 'Our architecture services focus on designing and implementing secure-by-design systems. We work with you to build a resilient foundation, whether you are migrating to the cloud or building new applications. We ensure your infrastructure is scalable, compliant, and fortified against modern threats.'
   },
   {
-    title: 'Threat Intelligence',
-    description: 'Providing actionable intelligence on emerging threats and attack vectors, enabling proactive defense strategies.',
+    title: 'Offensive',
+    description: 'Real-world attack simulations and penetration testing to uncover vulnerabilities before they can be exploited.',
+    longDescription: 'Our offensive security team thinks like an attacker. Through penetration testing, red teaming, and adversary simulation, we identify and help you remediate vulnerabilities in your applications, networks, and cloud environments, providing a clear picture of your real-world risk.'
+  },
+  {
+    title: 'DevSecOps',
+    description: 'Integrating automated security controls and practices directly into your development pipelines.',
+    longDescription: 'We help you shift security left by embedding automated security testing and best practices into your CI/CD pipelines. Our DevSecOps approach ensures that security is a continuous part of your development lifecycle, not an afterthought, enabling you to build and deploy software faster and more securely.'
+  },
+  {
+    title: 'Awareness',
+    description: 'Human-centric security training and phishing simulations to empower your team as the first line of defense.',
+    longDescription: 'The human element is often the weakest link in security. Our awareness programs go beyond generic training. We provide engaging, human-centric security education and realistic phishing simulations to empower your employees, turning your team into a proactive first line of defense.'
   },
   {
     title: 'Incident Response',
     description: 'Rapid response and remediation services to contain threats, minimize damage, and restore operations after a security breach.',
   },
   {
-    title: 'Security Audit & Compliance',
-    description: 'Ensuring your organization meets industry standards and regulatory requirements like GDPR, HIPAA, and PCI-DSS.',
-  },
-  {
     title: 'Digital Forensics',
     description: 'Investigating security incidents to understand the scope of a breach and gather evidence for legal action.',
-  },
-  {
-    title: 'Vulnerability Assessment',
-    description: 'Systematically scanning your infrastructure to identify, quantify, and prioritize security weaknesses.',
   },
 ];
 
