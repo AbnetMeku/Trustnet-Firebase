@@ -15,7 +15,7 @@ export const services: Service[] = [
     iconName: "Shield",
     title: "Next-Gen Firewall Deployment",
     description: "Deployment and hardening of Next-Generation Firewalls and SD-WAN secure design.",
-    price: "From $2,000",
+    price: "Custom Quote",
     category: "Secure Architecture"
   },
   {
@@ -39,7 +39,7 @@ export const services: Service[] = [
     iconName: "Cloud",
     title: "Cloud & Hybrid Security",
     description: "Securing cloud infrastructures, hybrid environments, and implementing secure email solutions.",
-    price: "From $3,500",
+    price: "Custom Quote",
     category: "Secure Architecture"
   },
 
@@ -49,7 +49,7 @@ export const services: Service[] = [
     iconName: "Zap",
     title: "VAPT Services",
     description: "Vulnerability Assessment & Penetration Testing for internal/external networks, Web, and APIs.",
-    price: "From $2,500",
+    price: "Custom Quote",
     category: "Offensive Security"
   },
   {
@@ -65,7 +65,7 @@ export const services: Service[] = [
     iconName: "FileCheck",
     title: "Compliance Readiness",
     description: "Advisory and readiness assessments for ISO 27001, NIST, and CIS Controls.",
-    price: "From $5,000",
+    price: "Custom Quote",
     category: "Offensive Security"
   },
 
@@ -83,7 +83,7 @@ export const services: Service[] = [
     iconName: "Code",
     title: "App Security Testing",
     description: "SAST, DAST, Software Composition Analysis (SCA), and source code review.",
-    price: "From $1,500",
+    price: "Custom Quote",
     category: "DevSecOps"
   },
   {
@@ -101,7 +101,7 @@ export const services: Service[] = [
     iconName: "Users",
     title: "Awareness Training",
     description: "Comprehensive employee cybersecurity training to reduce human risk.",
-    price: "Per User Pricing",
+    price: "Custom Quote",
     category: "Training & Simulation"
   },
   {
@@ -109,7 +109,7 @@ export const services: Service[] = [
     iconName: "MailWarning",
     title: "Phishing Simulations",
     description: "Real-world phishing campaigns to test and educate your workforce.",
-    price: "Subscription",
+    price: "Custom Quote",
     category: "Training & Simulation"
   },
   {
@@ -117,7 +117,7 @@ export const services: Service[] = [
     iconName: "Terminal",
     title: "Technical Training",
     description: "Red/Blue team technical training and secure coding workshops for developers.",
-    price: "Workshop Pricing",
+    price: "Custom Quote",
     category: "Training & Simulation"
   }
 ];
@@ -258,3 +258,5 @@ export const leads: Lead[] = [
         message: 'We are growing fast and need to ensure our cloud infrastructure is secure. Looking for a consultation on cloud security best practices.',
     }
 ]
+
+    
