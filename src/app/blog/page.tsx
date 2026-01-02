@@ -15,7 +15,7 @@ export default function BlogPage({ searchParams }: { searchParams: { category?: 
   const heroImage = PlaceHolderImages.find(p => p.id === 'blog-hero');
 
   return (
-    <div>
+    <div className="animate-fade-in-up">
       <section className="relative w-full py-20 md:py-28">
         {heroImage && (
           <Image
@@ -30,7 +30,7 @@ export default function BlogPage({ searchParams }: { searchParams: { category?: 
         <div className="container relative px-4 md:px-6 z-10 text-center">
           <div className="space-y-2">
             <h1 className="text-4xl font-bold tracking-tighter text-primary sm:text-5xl font-headline">
-              TrustNet Blog
+              The Trustnet Blog
             </h1>
             <p className="max-w-[600px] mx-auto text-foreground/80 md:text-xl">
               Insights and analysis from the forefront of cybersecurity.
@@ -58,7 +58,7 @@ export default function BlogPage({ searchParams }: { searchParams: { category?: 
             const postImage = PlaceHolderImages.find(p => p.id === post.image);
             return (
             <Link href={`/blog/${post.slug}`} key={post.slug}>
-              <Card className="h-full overflow-hidden hover:shadow-accent/20 hover:shadow-lg transition-all duration-300 group">
+              <Card className="h-full overflow-hidden rounded-2xl hover:shadow-accent/20 hover:shadow-lg transition-all duration-300 group hover:scale-105">
                 {postImage && (
                   <div className="overflow-hidden">
                     <Image
@@ -75,7 +75,7 @@ export default function BlogPage({ searchParams }: { searchParams: { category?: 
                   <CardTitle className="text-xl font-headline">{post.title}</CardTitle>
                   <div className="flex justify-between items-center pt-2">
                      <Badge variant="secondary">{post.category}</Badge>
-                     <p className="text-sm text-muted-foreground">{post.date}</p>
+                     <p className="text-sm text-muted-foreground font-mono">{post.date}</p>
                   </div>
                 </CardHeader>
                 <CardContent>

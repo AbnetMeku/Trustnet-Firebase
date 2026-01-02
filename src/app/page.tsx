@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { services } from '@/lib/data';
 import { ArrowRight, BrainCircuit, ShieldCheck, Siren } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts, getPostBySlug } from '@/lib/data';
+import { blogPosts } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -21,24 +21,29 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
-        <section className="relative w-full py-20 md:py-32 lg:py-40 xl:py-48">
-          {heroImage && (
-             <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-                priority
-             />
-          )}
-          <div className="absolute inset-0 bg-background/70 backdrop-blur-sm"></div>
+        <section className="relative w-full py-20 md:py-32 lg:py-40 xl:py-48 overflow-hidden">
+          <div className="absolute inset-0">
+            {heroImage && (
+              <Image
+                  src={heroImage.imageUrl}
+                  alt={heroImage.description}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={heroImage.imageHint}
+                  priority
+              />
+            )}
+            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
+            {/* Glow Orbs */}
+            <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/20 rounded-full filter blur-[150px] opacity-50 animate-pulse"></div>
+            <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-accent/20 rounded-full filter blur-[150px] opacity-50 animate-pulse animation-delay-4000"></div>
+          </div>
           <div className="container relative px-4 md:px-6 z-10">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-x-12 xl:grid-cols-2">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
+              <div className="flex flex-col justify-center space-y-4 animate-fade-in-up">
+                <div className="space-y-4">
                   <h1 className="text-4xl font-bold tracking-tighter text-primary sm:text-5xl xl:text-6xl/none font-headline">
-                    TrustNet Hub: Fortifying Your Digital Frontier
+                    Trustnet Solutions: Fortifying Your Digital Frontier
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl">
                     Cutting-edge cybersecurity solutions tailored for the modern enterprise. Proactive defense, expert insights, and rapid response.
@@ -46,13 +51,13 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/services">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                    <Button size="lg" className="shadow-primary-glow transition-transform hover:scale-105">
                       Explore Services
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/contact">
-                    <Button size="lg" variant="outline">
+                    <Button size="lg" variant="outline" className="transition-transform hover:scale-105">
                       Contact Us
                     </Button>
                   </Link>
@@ -66,7 +71,7 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">Our Services</div>
+                <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium">Our Services</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Expertise You Can Rely On</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   We provide a comprehensive suite of cybersecurity services to protect your assets and ensure business continuity.
@@ -77,7 +82,7 @@ export default function Home() {
               {services.slice(0, 3).map((service) => {
                 const Icon = serviceIcons[service.title] || ShieldCheck;
                 return (
-                  <Card key={service.title} className="hover:shadow-lg hover:border-primary/50 transition-all duration-300">
+                  <Card key={service.title} className="rounded-2xl hover:shadow-lg hover:border-primary/50 transition-all duration-300 hover:scale-105">
                     <CardHeader className="gap-4">
                       <Icon className="h-10 w-10 text-primary" />
                       <CardTitle className="font-headline">{service.title}</CardTitle>
@@ -102,7 +107,7 @@ export default function Home() {
         <section id="blog" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight font-headline">From the TrustNet Hub Blog</h2>
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight font-headline">From the Trustnet Solutions Blog</h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Stay informed with the latest insights, trends, and analysis from our cybersecurity experts.
               </p>
@@ -112,7 +117,7 @@ export default function Home() {
                  const postImage = PlaceHolderImages.find(p => p.id === post.image);
                  return (
                   <Link href={`/blog/${post.slug}`} key={post.slug}>
-                    <Card className="h-full overflow-hidden hover:scale-105 transition-transform duration-300">
+                    <Card className="h-full overflow-hidden rounded-2xl hover:scale-105 transition-transform duration-300 group">
                       {postImage && (
                          <Image
                             src={postImage.imageUrl}

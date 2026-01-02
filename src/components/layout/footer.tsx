@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Bot className="w-8 h-8 text-primary" />
-              <span className="text-xl font-bold font-headline">TrustNet Hub</span>
+              <span className="text-xl font-bold font-headline">Trustnet Solutions</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Fortifying your digital frontier with cutting-edge cybersecurity solutions.
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} TrustNet Hub. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Trustnet Solutions. All rights reserved.</p>
         </div>
       </div>
     </footer>

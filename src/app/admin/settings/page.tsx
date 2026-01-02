@@ -15,7 +15,7 @@ export default function AdminSettingsPage() {
           <form className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="site-name">Site Name</Label>
-              <Input id="site-name" defaultValue="TrustNet Hub" />
+              <Input id="site-name" defaultValue="Trustnet Solutions" />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="contact-email">Public Contact Email</Label>

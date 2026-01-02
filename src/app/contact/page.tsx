@@ -49,8 +49,10 @@ export default function ContactPage() {
   useEffect(() => {
     if (state.success) {
       toast({
-        title: "Success!",
+        title: "Request Sent!",
         description: state.message,
+        variant: "default",
+        className: "bg-success text-white"
       });
       form.reset();
     } else if (state.message && state.errors) {
@@ -65,7 +67,7 @@ export default function ContactPage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'contact-hero');
 
   return (
-    <div>
+    <div className="animate-fade-in-up">
       <section className="relative w-full py-20 md:py-28">
         {heroImage && (
           <Image
@@ -98,7 +100,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <Mail className="w-6 h-6 text-primary" />
-                <a href="mailto:contact@trustnethub.io" className="hover:text-primary">contact@trustnethub.io</a>
+                <a href="mailto:contact@trustnethub.io" className="hover:text-primary transition-colors">contact@trustnethub.io</a>
               </div>
               <div className="flex items-center gap-4">
                 <Phone className="w-6 h-6 text-primary" />
@@ -110,7 +112,7 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader>
               <CardTitle>Send Us a Message</CardTitle>
               <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
@@ -170,7 +172,7 @@ export default function ContactPage() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full shadow-primary-glow">
                     Submit
                   </Button>
                 </form>

@@ -68,12 +68,12 @@ export default function ChatAdvisor() {
               transition={{ duration: 0.3, ease: 'easeOut' }}
               className="w-[calc(100vw-3rem)] max-w-md"
             >
-              <Card className="flex flex-col h-[70vh] max-h-[700px] shadow-2xl">
+              <Card className="flex flex-col h-[70vh] max-h-[700px] shadow-2xl rounded-3xl">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       <Bot className="h-8 w-8 text-primary" />
-                      <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-card" />
+                      <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-success ring-2 ring-card animate-pulse" />
                     </div>
                     <div>
                       <CardTitle className="font-headline">TrustNetBot</CardTitle>
@@ -166,7 +166,7 @@ export default function ChatAdvisor() {
         >
             <Button
               size="icon"
-              className="w-16 h-16 rounded-full shadow-lg"
+              className="w-16 h-16 rounded-full shadow-primary-glow"
               onClick={() => setIsOpen(true)}
               aria-label="Open Chat"
             >

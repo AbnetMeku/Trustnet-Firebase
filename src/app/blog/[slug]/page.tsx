@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
     };
   }
   return {
-    title: `${post.title} | TrustNet Hub Blog`,
+    title: `${post.title} | Trustnet Solutions Blog`,
     description: post.excerpt,
   };
 }
@@ -38,7 +38,7 @@ export default function BlogPostPage({ params }: Props) {
   const postImage = PlaceHolderImages.find((p) => p.id === post.image);
 
   return (
-    <article className="py-12 md:py-20">
+    <article className="py-12 md:py-20 animate-fade-in-up">
       <div className="container max-w-4xl mx-auto px-4">
         <header className="mb-8">
           <div className="text-center mb-4">
@@ -56,12 +56,12 @@ export default function BlogPostPage({ params }: Props) {
               <span>{post.author.name}</span>
             </div>
             <span>&bull;</span>
-            <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            <time dateTime={post.date} className="font-mono">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
           </div>
         </header>
 
         {postImage && (
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-lg">
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg">
             <Image
               src={postImage.imageUrl}
               alt={post.title}
@@ -75,16 +75,16 @@ export default function BlogPostPage({ params }: Props) {
 
         <div className="prose prose-lg dark:prose-invert max-w-none mx-auto" dangerouslySetInnerHTML={{ __html: post.content }} />
       
-        <Card className="mt-12 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <Card className="mt-12 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl">
             <p className="font-semibold text-lg">Share this article</p>
             <div className="flex gap-2">
-                <Button variant="outline" size="icon" aria-label="Share on Twitter">
+                <Button variant="outline" size="icon" aria-label="Share on Twitter" className="rounded-full transition-transform hover:scale-110">
                     <Twitter className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" aria-label="Share on LinkedIn">
+                <Button variant="outline" size="icon" aria-label="Share on LinkedIn" className="rounded-full transition-transform hover:scale-110">
                     <Linkedin className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" aria-label="Copy link">
+                <Button variant="outline" size="icon" aria-label="Copy link" className="rounded-full transition-transform hover:scale-110">
                     <LinkIcon className="h-4 w-4" />
                 </Button>
             </div>

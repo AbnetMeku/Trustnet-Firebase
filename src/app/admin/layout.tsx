@@ -59,7 +59,7 @@ export default function AdminLayout({
         <SidebarHeader>
           <div className="flex items-center gap-2">
              <Bot className="w-8 h-8 text-primary" />
-             <h1 className="text-xl font-semibold font-headline">TrustNet</h1>
+             <h1 className="text-xl font-semibold font-headline">Trustnet Solutions</h1>
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -93,7 +93,7 @@ export default function AdminLayout({
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/70 backdrop-blur-xl px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <SidebarTrigger className="sm:hidden" />
           <div className="ml-auto">
              <ThemeToggle />

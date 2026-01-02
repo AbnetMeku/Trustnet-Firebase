@@ -9,7 +9,7 @@ import ChatAdvisor from '@/components/chat-advisor';
 import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
-  title: 'TrustNet Hub',
+  title: 'Trustnet Solutions',
   description: 'Your partner in cybersecurity excellence.',
 };
 

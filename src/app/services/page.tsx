@@ -23,7 +23,7 @@ export default function ServicesPage() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'services-hero');
 
     return (
-        <div>
+        <div className="animate-fade-in-up">
             <section className="relative w-full py-20 md:py-28">
                 {heroImage && (
                     <Image
@@ -53,7 +53,7 @@ export default function ServicesPage() {
                         {services.map((service) => {
                             const Icon = serviceIcons[service.title] || ShieldCheck;
                             return (
-                                <Card key={service.title} className="flex flex-col hover:border-primary/50 transition-colors">
+                                <Card key={service.title} className="flex flex-col rounded-2xl hover:border-primary/50 transition-all hover:scale-105 duration-300">
                                     <CardHeader className="flex-row items-center gap-4 pb-4">
                                         <div className="bg-primary/10 p-3 rounded-full">
                                             <Icon className="h-6 w-6 text-primary" />
@@ -75,11 +75,11 @@ export default function ServicesPage() {
                     <div className="space-y-3">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Ready to Secure Your Business?</h2>
                         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
-                           Let's discuss how TrustNet Hub can tailor a security strategy that fits your unique needs.
+                           Let's discuss how Trustnet Solutions can tailor a security strategy that fits your unique needs.
                         </p>
                     </div>
                     <Link href="/contact">
-                        <Button size="lg">
+                        <Button size="lg" className="shadow-primary-glow transition-transform hover:scale-105">
                             Get a Free Consultation
                             <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>

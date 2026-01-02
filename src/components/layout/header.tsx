@@ -32,12 +32,12 @@ export default function Header() {
 
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/70 backdrop-blur-xl">
       <div className="container flex h-16 items-center">
         <div className="mr-8 flex">
           <Link href="/" className="flex items-center gap-2">
             <Bot className="h-6 w-6 text-primary" />
-            <span className="font-bold font-headline">TrustNet Hub</span>
+            <span className="font-bold font-headline">Trustnet Solutions</span>
           </Link>
         </div>
 
@@ -64,9 +64,6 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-end gap-2">
            {isUserLoading ? null : user ? (
             <>
-            <Link href="/admin">
-              <Button variant="ghost" size="sm">Dashboard</Button>
-            </Link>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               Logout
@@ -92,7 +89,7 @@ export default function Header() {
               <div className="p-4">
                 <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setIsMobileMenuOpen(false)}>
                   <Bot className="h-6 w-6 text-primary" />
-                  <span className="font-bold">TrustNet Hub</span>
+                  <span className="font-bold">Trustnet Solutions</span>
                 </Link>
                 <nav className="grid gap-6 text-lg font-medium">
                   {navLinks.map(({ href, label }) => (
