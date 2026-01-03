@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { blogPosts, categories } from '@/lib/data';
@@ -6,12 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-export default function BlogPage({ searchParams }: { searchParams: { category?: string } }) {
-  const currentCategory = searchParams.category;
+export default function BlogPage() {
+  const [currentCategory, setCurrentCategory] = useState<string | undefined>(undefined);
+
   const filteredPosts = currentCategory
     ? blogPosts.filter((post) => post.categorySlug === currentCategory)
     : blogPosts;
-  
+
   const heroImage = PlaceHolderImages.find(p => p.id === 'blog-hero');
 
   return (
@@ -41,15 +45,17 @@ export default function BlogPage({ searchParams }: { searchParams: { category?: 
       
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="flex justify-center flex-wrap gap-2 mb-8">
-          <Link href="/blog" scroll={false}>
-            <Button variant={!currentCategory ? 'default' : 'outline'}>All Posts</Button>
-          </Link>
+          <Button variant={!currentCategory ? 'default' : 'outline'} onClick={() => setCurrentCategory(undefined)}>
+            All Posts
+          </Button>
           {categories.map((category) => (
-            <Link key={category.slug} href={`/blog?category=${category.slug}`} scroll={false}>
-              <Button variant={currentCategory === category.slug ? 'default' : 'outline'}>
-                {category.name}
-              </Button>
-            </Link>
+            <Button 
+              key={category.slug} 
+              variant={currentCategory === category.slug ? 'default' : 'outline'}
+              onClick={() => setCurrentCategory(category.slug)}
+            >
+              {category.name}
+            </Button>
           ))}
         </div>
 
