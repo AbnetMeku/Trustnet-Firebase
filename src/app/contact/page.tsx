@@ -1,9 +1,10 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
@@ -14,7 +15,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -25,10 +27,13 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
+type SubmissionStatus = "idle" | "submitting" | "success" | "error";
+
 function ContactFormComponent() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const serviceQuery = searchParams.get('service');
+  const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>("idle");
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -47,13 +52,31 @@ function ContactFormComponent() {
     }
   }, [searchParams, form]);
   
-  const onSubmit = (data: ContactFormValues) => {
-    console.log(data);
-    toast({
-        title: "Form Submitted!",
-        description: "In a real app, this would send an email.",
-    });
-    form.reset();
+  const onSubmit = async (data: ContactFormValues) => {
+    setSubmissionStatus("submitting");
+
+    // IMPORTANT: Replace with your own Formspree endpoint URL
+    // Go to https://formspree.io/ to create one.
+    const formspreeEndpoint = "https://formspree.io/f/your_form_id";
+
+    try {
+      const response = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setSubmissionStatus("success");
+        form.reset();
+      } else {
+        setSubmissionStatus("error");
+      }
+    } catch (error) {
+      setSubmissionStatus("error");
+    }
   }
 
   return (
@@ -63,65 +86,90 @@ function ContactFormComponent() {
         <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="john.doe@example.com" {...field} />
-                  </FormControl>
-                   <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company (Optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your Company Inc." {...field} />
-                  </FormControl>
-                   <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="How can we help you?" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full shadow-primary-glow">
-              Submit
-            </Button>
-          </form>
-        </Form>
+        {submissionStatus === 'success' && (
+          <Alert variant="default" className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700">
+            <CheckCircle className="h-4 w-4 !text-green-500" />
+            <AlertTitle className="text-green-800 dark:text-green-300">Success!</AlertTitle>
+            <AlertDescription className="text-green-700 dark:text-green-400">
+              Your message has been sent successfully. We'll be in touch soon.
+            </AlertDescription>
+          </Alert>
+        )}
+        {submissionStatus === 'error' && (
+           <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Submission Error</AlertTitle>
+            <AlertDescription>
+              Something went wrong. Please try again later or contact us directly via email.
+            </AlertDescription>
+          </Alert>
+        )}
+        {(submissionStatus === 'idle' || submissionStatus === 'submitting') && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="john.doe@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your Company Inc." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Message</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="How can we help you?" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full shadow-primary-glow" disabled={submissionStatus === 'submitting'}>
+                {submissionStatus === 'submitting' ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : "Submit"}
+              </Button>
+            </form>
+          </Form>
+        )}
       </CardContent>
     </Card>
   );
@@ -185,3 +233,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    
