@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
@@ -25,7 +25,7 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-function ContactForm() {
+function ContactFormComponent() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const serviceQuery = searchParams.get('service');
@@ -177,7 +177,9 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-          <ContactForm />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ContactFormComponent />
+          </Suspense>
         </div>
       </div>
     </div>
