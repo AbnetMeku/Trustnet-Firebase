@@ -1,4 +1,4 @@
-import { getPostBySlug } from '@/lib/data';
+import { getPostBySlug, blogPosts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -13,6 +13,12 @@ type Props = {
     slug: string;
   };
 };
+
+export async function generateStaticParams() {
+  return blogPosts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: Props) {
   const post = getPostBySlug(params.slug);
